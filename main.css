@@ -1,0 +1,41 @@
+.deactivated {
+    height: 50px;
+    width: 50px;
+    color: white;
+    background-color: #353535;
+    transition: background-color 0.1s linear; /* vendorless fallback */
+    -o-transition: background-color 0.1s linear; /* opera */
+    -ms-transition: background-color 0.1s linear; /* IE 10 */
+    -moz-transition: background-color 0.1s linear; /* Firefox */
+    -webkit-transition: background-color 0.1s linear; /*safari and chrome */
+}
+.deactivated:hover {
+    background-color: #434343;
+}
+
+.activated {
+    height: 50px;
+    width: 50px;
+    color: white;
+    background-color: #0324fc;
+    transition: background-color 0.1s linear; /* vendorless fallback */
+    -o-transition: background-color 0.1s linear; /* opera */
+    -ms-transition: background-color 0.1s linear; /* IE 10 */
+    -moz-transition: background-color 0.1s linear; /* Firefox */
+    -webkit-transition: background-color 0.1s linear; /*safari and chrome */
+}
+.activated:hover {
+    background-color: #0367fc;
+}
+
+
+button {
+    padding: none;
+    margin: none;
+    border: none;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Perfect Pitch Practice</title>
+      <link rel="stylesheet" type="text/css" href="main.css">
+  </head>
+  <body>
+    <audio id="note"></audio>
+    <h1 id="score"></h1>
+    <div id="activatedNotes">
+          
+    </div>
+      
+    <h1 class="hidden" id="noteDisplay"></h1>
+      
+    <div>
+        <button id="replay" onclick="playCurrentNote()">Replay Sound</button>
+        <button id="next" class="hidden" onclick="nextNote()">Next Note</button>
+        <button id="correct" class="hidden" onclick="correct()">Correct</button>
+        <button id="incorrect" class="hidden" onclick="incorrect()">Incorrect</button>
+        <button id="display" onclick="toggleHides()">Display Answer</button>
+    </div>
+    
+  </body>
+  <script>
+      var allNotes = ["Bb0", "B0", "C1", "Db1", "D1", "Eb1", "E1", "F1", "Gb1", "G1", "Ab1", "A1", "Bb1", "B1", "C2", "Db2", "D2", "Eb2", "E2", "F2", "Gb2", "G2", "Ab2", "A2", "Bb2", "B2", "C3", "Db3", "D3", "Eb3", "E3", "F3", "Gb3", "G3", "Ab3", "A3", "Bb3", "B3", "C4", "Db4", "D4", "Eb4", "E4", "F4", "Gb4", "G4", "Ab4", "A4", "Bb4", "B4", "C5", "Db5", "D5", "Eb5", "E5", "F5", "Gb5", "G5", "Ab5", "A5", "Bb5", "B5", "C6", "Db6", "D6", "Eb6", "E6", "F6", "Gb6", "G6", "Ab6", "A6", "Bb6", "B6", "C7", "Db7", "D7", "Eb7", "E7", "F7", "Gb7", "G7", "Ab7", "A7", "Bb7", "B7", "C8"];
+      var activatedNotes = [];
+      var activatedNotesContainer = document.getElementById("activatedNotes");
+      var note = document.getElementById("note");
+      var currentNote = "A6";
+      var numCorrect = 0;
+      var num = 0;
+      
+      for (let i = 0; i < 87; i ++) {
+          if (i % 12== 0 && i != 0) {
+              activatedNotesContainer.appendChild(document.createElement("br"));
+          }
+          createNoteButton(allNotes[i]);
+      }
+      
+      function toggleHides() {
+          toggleHide("next");
+          toggleHide("correct");
+          toggleHide("incorrect");
+          toggleHide("display");
+          toggleHide("noteDisplay");
+      }
+      
+      function toggleHide(id) {
+          let elem = document.getElementById(id);
+          elem.classList.toggle("hidden");
+      }
+      
+      function incorrect() {
+          num ++;
+          updateScore();
+          nextNote();
+      }
+      
+      function correct() {
+          numCorrect ++;
+          num ++;
+          updateScore();
+          nextNote();
+      }
+       
+      function updateScore() {
+          let score = document.getElementById("score");
+          let percentage = numCorrect/num;
+          percentage = percentage.toFixed(4);
+          percentage *= 100;
+          score.innerHTML = numCorrect + "/" + num + "  Percentage: " + percentage + "%";
+      }
+      
+      function nextNote() {
+          toggleHides();
+          currentNote = activatedNotes[Math.floor(Math.random()*activatedNotes.length)]
+          document.getElementById("noteDisplay").innerHTML = currentNote;
+          playCurrentNote();
+      }
+      
+      function createNoteButton(name) {
+          let button = document.createElement("button");
+          button.classList.add("deactivated");
+          button.setAttribute("id", name);
+          button.innerHTML = name;
+          button.onclick = function(){toggleActivate(name);};
+          activatedNotesContainer.appendChild(button);
+      }
+      
+      function toggleActivate(id) {
+          let button = document.getElementById(id);
+          if (button.classList.toggle("deactivated")) { // If deactivating the button
+              let index = activatedNotes.indexOf(id);
+              activatedNotes.splice(index, 1);
+          } else {
+              activatedNotes.push(id);
+          }
+          button.classList.toggle("activated");
+      }
+      
+      function playCurrentNote() {
+          playNote(currentNote);
+      }
+      
+      function playNote(pitch) {
+          note.src = "./Notes/Piano.pp." + pitch + ".mp3";
+          document.getElementById("note").play();
+      }
+      
+      
+      
+  </script>
+</html>
